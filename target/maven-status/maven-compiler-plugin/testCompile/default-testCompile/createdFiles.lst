@@ -1,0 +1,4 @@
+com\abp\tests\BaseTest.class
+com\abp\tests\LoginTests.class
+com\abp\tests\FirstSeleniumTest.class
+com\abp\tests\RegistrationTests.class
