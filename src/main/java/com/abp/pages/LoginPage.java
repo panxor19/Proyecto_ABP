@@ -133,13 +133,29 @@ public class LoginPage extends BasePage {
      */
     public boolean isErrorMessageDisplayed() {
         try {
-            // Verificar múltiples tipos de mensajes de error
-            boolean hasErrorClass = isElementPresent(By.cssSelector(".error"));
-            boolean hasErrorParagraph = isElementPresent(By.xpath("//p[@class='error']"));
-            boolean hasValidationMessage = isElementPresent(By.xpath("//*[contains(text(), 'Please') or contains(text(), 'required') or contains(text(), 'invalid')]"));
-            boolean hasLoginError = isElementPresent(By.xpath("//*[contains(text(), 'username') and contains(text(), 'password')]"));
+            // Esperar un poco para que la página se estabilice
+            Thread.sleep(1000);
             
-            return hasErrorClass || hasErrorParagraph || hasValidationMessage || hasLoginError;
+            // Si estamos en la página overview, no hay errores
+            if (driver.getCurrentUrl().contains("overview")) {
+                return false;
+            }
+            
+            // Si vemos el link de Log Out, el login fue exitoso
+            try {
+                WebElement logoutLink = driver.findElement(By.linkText("Log Out"));
+                if (logoutLink.isDisplayed()) {
+                    return false; // No hay errores si podemos hacer logout
+                }
+            } catch (Exception e) {
+                // Continuar con verificaciones de error
+            }
+            
+            // Verificar mensajes de error específicos
+            boolean hasErrorMessage = isElementPresent(By.xpath("//p[@class='error' and text()!='']"));
+            boolean hasValidationError = isElementPresent(By.xpath("//*[contains(text(), 'Please enter a username and password') or contains(text(), 'invalid username')]"));
+            
+            return hasErrorMessage || hasValidationError;
         } catch (Exception e) {
             return false;
         }

@@ -43,7 +43,6 @@ public class BaseTest {
             extentTest.log(Status.INFO, "🎥 Grabación de video iniciada para evidencia");
         }
         
-        // ParaBank ya se navega en cada page object según sea necesario
         extentTest.log(Status.INFO, "Configurando test: " + testName);
     }
     
@@ -51,13 +50,27 @@ public class BaseTest {
     public void teardownMethod(ITestResult result) {
         // Detener grabación de video
         if (videoRecordingEnabled) {
-            VideoRecorder.stopRecording();
-            extentTest.log(Status.INFO, "🎬 Grabación de video completada y guardada en /videos/");
+            try {
+                VideoRecorder.stopRecording();
+                extentTest.log(Status.INFO, "🎬 Grabación de video completada y guardada en /videos/");
+            } catch (Exception e) {
+                extentTest.log(Status.WARNING, "Error deteniendo grabación de video: " + e.getMessage());
+            }
         }
         
         if (result.getStatus() == ITestResult.FAILURE) {
             String errorMessage = result.getThrowable() != null ? result.getThrowable().getMessage() : "Error desconocido";
             extentTest.log(Status.FAIL, "Test fallido: " + errorMessage);
+            
+            // Tomar captura de pantalla en caso de fallo
+            try {
+                String screenshotPath = takeScreenshot(result.getMethod().getMethodName());
+                if (screenshotPath != null) {
+                    extentTest.addScreenCaptureFromPath(screenshotPath);
+                }
+            } catch (Exception e) {
+                extentTest.log(Status.WARNING, "No se pudo tomar captura de pantalla: " + e.getMessage());
+            }
         } else if (result.getStatus() == ITestResult.SUCCESS) {
             extentTest.log(Status.PASS, "Test ejecutado exitosamente");
         } else if (result.getStatus() == ITestResult.SKIP) {

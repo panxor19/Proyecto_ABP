@@ -46,12 +46,12 @@ public class VideoRecorder extends ScreenRecorder {
                     .getDefaultScreenDevice().getDefaultConfiguration();
             
             videoRecorder = new VideoRecorder(gc, captureSize,
-                    new Format(MediaTypeKey, MediaType.FILE, MimeTypeKey, MIME_AVI),
-                    new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
-                            CompressorNameKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
+                    new Format(MediaTypeKey, MediaType.FILE, MimeTypeKey, MIME_QUICKTIME),
+                    new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, ENCODING_QUICKTIME_JPEG,
+                            CompressorNameKey, ENCODING_QUICKTIME_JPEG,
                             DepthKey, 24, FrameRateKey, Rational.valueOf(15),
-                            QualityKey, 1.0f,
-                            KeyFrameIntervalKey, 15 * 60),
+                            QualityKey, 0.8f,
+                            KeyFrameIntervalKey, 15 * 30),
                     new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, "black",
                             FrameRateKey, Rational.valueOf(30)),
                     null, recordingDir);
@@ -94,7 +94,7 @@ public class VideoRecorder extends ScreenRecorder {
         
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         String timestamp = dateFormat.format(new Date());
-        String fileName = String.format("Test_%s_%s.avi", 
+        String fileName = String.format("Test_%s_%s.mov", 
                                        testName != null ? testName.replaceAll("[^a-zA-Z0-9]", "_") : "Unknown",
                                        timestamp);
         

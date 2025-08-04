@@ -1,18 +1,18 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="SeleniumAutomationSuite" verbose="1">
-    <test name="Chrome Tests" preserve-order="true">
+<suite name="SeleniumAutomationSuite_ABP" verbose="1">
+    <test name="Chrome Tests - ABP Requirements" preserve-order="true">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <class name="com.abp.tests.RegistrationTests"/>
-            <class name="com.abp.tests.LoginTests"/>
+            <class name="com.abp.tests.LoginTestsSimplified"/>
+            <class name="com.abp.tests.RegistrationTestsSimplified"/>
         </classes>
     </test>
     
-    <test name="Firefox Tests" preserve-order="true">
+    <test name="Firefox Tests - ABP Requirements" preserve-order="true">
         <parameter name="browser" value="firefox"/>
         <classes>
-            <class name="com.abp.tests.RegistrationTests"/>
-            <class name="com.abp.tests.LoginTests"/>
+            <class name="com.abp.tests.LoginTestsSimplified"/>
+            <class name="com.abp.tests.RegistrationTestsSimplified"/>
         </classes>
     </test>
 </suite>

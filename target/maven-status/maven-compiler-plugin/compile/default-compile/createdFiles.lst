@@ -3,6 +3,4 @@ com\abp\utils\VideoRecorder.class
 com\abp\utils\ExtentReportManager.class
 com\abp\pages\RegisterPage.class
 com\abp\pages\BasePage.class
-com\abp\utils\DataReader$1.class
-com\abp\utils\DataReader.class
 com\abp\pages\LoginPage.class

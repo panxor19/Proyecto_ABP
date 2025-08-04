@@ -12,59 +12,75 @@ import java.time.Duration;
 
 /**
  * Clase para gestionar la configuración de WebDriver
- * Implementa el patrón Singleton para asegurar una sola instancia del driver
+ * Implementa ThreadLocal para soporte de ejecución paralela
  */
 public class WebDriverConfig {
-    private static WebDriver driver;
-    private static WebDriverWait wait;
+    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    private static ThreadLocal<WebDriverWait> wait = new ThreadLocal<>();
     
     public static void initializeDriver(String browserName) {
-        if (driver == null) {
+        if (driver.get() == null) {
+            WebDriver webDriver = null;
+            
             switch (browserName.toLowerCase()) {
                 case "chrome":
                     WebDriverManager.chromedriver().setup();
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.addArguments("--disable-notifications");
                     chromeOptions.addArguments("--disable-popup-blocking");
-                    driver = new ChromeDriver(chromeOptions);
+                    chromeOptions.addArguments("--disable-blink-features=AutomationControlled");
+                    chromeOptions.addArguments("--no-sandbox");
+                    chromeOptions.addArguments("--disable-dev-shm-usage");
+                    webDriver = new ChromeDriver(chromeOptions);
                     break;
                     
                 case "firefox":
                     WebDriverManager.firefoxdriver().setup();
                     FirefoxOptions firefoxOptions = new FirefoxOptions();
                     firefoxOptions.addPreference("dom.webnotifications.enabled", false);
-                    driver = new FirefoxDriver(firefoxOptions);
+                    firefoxOptions.addPreference("dom.disable_beforeunload", true);
+                    webDriver = new FirefoxDriver(firefoxOptions);
                     break;
                     
                 default:
                     throw new IllegalArgumentException("Browser no soportado: " + browserName);
             }
             
-            driver.manage().window().maximize();
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-            wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+            webDriver.manage().window().maximize();
+            webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+            webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+            
+            driver.set(webDriver);
+            wait.set(new WebDriverWait(webDriver, Duration.ofSeconds(15)));
         }
     }
     
     public static WebDriver getDriver() {
-        if (driver == null) {
+        WebDriver webDriver = driver.get();
+        if (webDriver == null) {
             throw new IllegalStateException("Driver no ha sido inicializado. Llama a initializeDriver() primero.");
         }
-        return driver;
+        return webDriver;
     }
     
     public static WebDriverWait getWait() {
-        if (wait == null) {
+        WebDriverWait webDriverWait = wait.get();
+        if (webDriverWait == null) {
             throw new IllegalStateException("WebDriverWait no ha sido inicializado. Llama a initializeDriver() primero.");
         }
-        return wait;
+        return webDriverWait;
     }
     
     public static void quitDriver() {
-        if (driver != null) {
-            driver.quit();
-            driver = null;
-            wait = null;
+        WebDriver webDriver = driver.get();
+        if (webDriver != null) {
+            try {
+                webDriver.quit();
+            } catch (Exception e) {
+                System.err.println("Error cerrando driver: " + e.getMessage());
+            }
+            driver.remove();
+            wait.remove();
         }
     }
 }
