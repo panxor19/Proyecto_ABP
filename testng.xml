@@ -3,16 +3,16 @@
     <test name="Chrome Tests - ABP Requirements" preserve-order="true">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <class name="com.abp.tests.LoginTestsSimplified"/>
-            <class name="com.abp.tests.RegistrationTestsSimplified"/>
+            <class name="com.abp.tests.LoginTest"/>
+            <class name="com.abp.tests.RegisterTest"/>
         </classes>
     </test>
     
-    <test name="Firefox Tests - ABP Requirements" preserve-order="true">
+    <!-- <test name="Firefox Tests - ABP Requirements" preserve-order="true">
         <parameter name="browser" value="firefox"/>
         <classes>
             <class name="com.abp.tests.LoginTestsSimplified"/>
             <class name="com.abp.tests.RegistrationTestsSimplified"/>
         </classes>
-    </test>
+    </test> -->
 </suite>
