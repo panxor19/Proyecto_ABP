@@ -1,8 +1,8 @@
-# Selenium Automation Project - ABP
+# Proyecto Selenium ABP - ParaBank
 
-## Guía de Instalación y Configuración del Proyecto Grupal
+## Guía de Instalación y Configuración del Proyecto
 
-Nuestro equipo ha desarrollado esta guía para facilitar la instalación y configuración del proyecto de automatización Selenium. Seguir estos pasos permitirá ejecutar exitosamente todas las pruebas implementadas colaborativamente.
+Esta guía detalla los pasos necesarios para configurar y ejecutar el proyecto de automatización Selenium para ParaBank. El proyecto incluye 6 escenarios automatizados (Login y Registro) con evidencias en video y reportes HTML, cumpliendo completamente con los requisitos ABP.
 
 ### 1. Prerequisitos del Sistema
 
@@ -33,11 +33,11 @@ mvn -version
 
 #### Clonar/Descargar el Proyecto
 ```bash
-# Si tienes el proyecto en GitHub
-git clone <repository-url>
-cd tarea-abp
+# Clonar desde GitHub
+git clone https://github.com/panxor19/Proyecto_ABP.git
+cd Proyecto_ABP
 
-# O simplemente descarga y extrae el ZIP
+# O descargar ZIP y extraer
 ```
 
 #### Instalar Dependencias
@@ -53,28 +53,31 @@ mvn dependency:resolve
 
 #### pom.xml
 - Gestiona todas las dependencias del proyecto
-- Configuración de plugins de Maven
-- Versiones de Selenium, TestNG, etc.
+- Selenium WebDriver 4.15.0
+- TestNG 7.8.0  
+- WebDriverManager 5.6.2
+- ExtentReports 5.1.1
+- Monte Screen Recorder 0.7.7.0 (para videos)
 
 #### testng.xml
-- Define las suites de prueba
+- Define las suites de prueba para Chrome y Firefox
 - Configuración cross-browser
-- Parámetros de ejecución
+- Ejecuta LoginTest y RegisterTest en ambos navegadores
 
-#### application.properties (opcional)
-```properties
-# URLs de las aplicaciones a probar
-base.url=https://example.com
-login.url=https://example.com/login
-register.url=https://example.com/register
-
-# Timeouts
-implicit.wait=10
-explicit.wait=15
-
-# Configuración de reportes
-reports.path=./reports
-screenshots.path=./screenshots
+#### Estructura del Proyecto
+```
+src/test/java/com/abp/
+├── tests/
+│   ├── BaseTest.java           # Configuración base
+│   ├── LoginTest.java          # 3 tests de login
+│   ├── RegisterTest.java       # 3 tests de registro
+│   └── pom/
+│       ├── BasePage.java       # Funciones base POM
+│       ├── LoginPage.java      # Page Object para login
+│       └── RegisterPage.java   # Page Object para registro
+└── utils/
+    ├── WebDriverConfig.java    # Configuración de drivers
+    └── ExtentReportManager.java # Gestión de reportes
 ```
 
 ### 4. Ejecución de Pruebas
@@ -82,23 +85,37 @@ screenshots.path=./screenshots
 #### Comandos Básicos de Maven
 
 ```bash
-# Ejecutar todas las pruebas
+# Ejecutar todas las pruebas (6 escenarios en Chrome y Firefox)
 mvn clean test
 
-# Ejecutar con perfil específico
-mvn test -Pbrowser-chrome
-mvn test -Pbrowser-firefox
+# Ejecutar solo tests de Chrome
+mvn test -Dtest="*Test" -Dbrowser=chrome
 
-# Ejecutar clase específica
-mvn test -Dtest=LoginTests
-mvn test -Dtest=RegistrationTests
+# Ejecutar solo tests de Firefox  
+mvn test -Dtest="*Test" -Dbrowser=firefox
 
-# Ejecutar método específico
-mvn test -Dtest=LoginTests#testLoginExitoso
+# Ejecutar solo tests de Login
+mvn test -Dtest=LoginTest
 
-# Ejecutar con parámetros
-mvn test -Dbrowser=firefox -Denv=staging
+# Ejecutar solo tests de Registro
+mvn test -Dtest=RegisterTest
+
+# Ejecutar test específico
+mvn test -Dtest=LoginTest#testLoginExitoso
+mvn test -Dtest=RegisterTest#testRegistroExitoso
 ```
+
+#### Tests Implementados (6 escenarios ABP)
+
+**Tests de Login (3):**
+1. `testLoginExitoso` - Login con credenciales válidas (john/demo)
+2. `testLoginFallido` - Login con credenciales inválidas
+3. `testLoginCamposVacios` - Validación de campos obligatorios
+
+**Tests de Registro (3):**
+1. `testRegistroExitoso` - Registro con datos válidos
+2. `testRegistroCamposObligatorios` - Validación campos vacíos
+3. `testRegistroPasswordsNoCoinciden` - Validación confirmación password
 
 #### Comandos desde IDE (VS Code)
 
@@ -133,88 +150,116 @@ Si WebDriverManager falla, descargar manualmente:
 
 Colocar en `src/main/resources/drivers/` y configurar PATH.
 
-### 6. Configuración de Datos de Prueba
+### 6. Sitio Web de Pruebas
 
-#### Archivos CSV
-Ubicación: `test-data/`
-- `login_data.csv` - Datos para tests de login
-- `registration_data.csv` - Datos para tests de registro
+#### ParaBank Demo Site
+- **URL**: https://parabank.parasoft.com/parabank/index.htm
+- **Usuario de prueba**: `john`
+- **Password**: `demo`
+- **Registro**: Usa datos únicos para cada ejecución
 
-#### Formato CSV
-```csv
-email,password,expectedResult
-user@test.com,Password123!,success
-invalid@test.com,wrongpass,error
-```
+### 7. Configuración de Datos de Prueba
 
-#### Archivos Excel (Opcional)
-```java
-// Leer desde Excel
-Object[][] data = DataReader.readDataFromExcel("test-data/users.xlsx", "LoginData");
-```
+#### Datos Hardcodeados (Implementación Actual)
+El proyecto utiliza datos de prueba directamente en el código:
 
-### 7. Configuración de Reportes
+**Login:**
+- Usuario válido: `john` / `demo`
+- Usuario inválido: `invalid_user` / `wrong_pass`
+
+**Registro:**
+- Datos únicos generados automáticamente
+- Timestamp para evitar duplicados
+- Validación de campos obligatorios
+
+### 8. Configuración de Reportes y Evidencias
 
 #### ExtentReports
-- Se generan automáticamente en `reports/`
-- Formato HTML con gráficos y detalles
-- Incluyen capturas de pantalla en errores
+- **Ubicación**: `reports/ExtentReport_YYYYMMDD_HHMMSS.html`
+- Reportes HTML interactivos con gráficos
+- Screenshots automáticas en errores
+- Detalles de cada paso de test
 
-#### Configurar Reportes Personalizados
+#### Videos de Evidencia (.mov)
+- **Ubicación**: `videos/Test_*.mov`
+- Grabación automática con Monte Screen Recorder
+- Un video por cada test ejecutado
+- Formato .mov compatible con la mayoría de reproductores
+
+#### Configurar Reportes
+Los reportes se configuran automáticamente en `ExtentReportManager.java`:
 ```java
-// En ExtentReportManager.java
-sparkReporter.config().setReportName("Mi Proyecto de Pruebas");
-sparkReporter.config().setDocumentTitle("Reporte de Automatización");
+// Configuración automática
+sparkReporter.config().setReportName("Proyecto ABP - ParaBank Automation");
+sparkReporter.config().setDocumentTitle("Reporte de Pruebas Selenium");
 ```
 
-### 8. Solución de Problemas Comunes
+### 9. Solución de Problemas Comunes
 
 #### Error: "Driver executable not found"
 ```bash
-# Solución 1: Verificar WebDriverManager
-mvn dependency:tree | grep webdrivermanager
+# Verificar WebDriverManager en pom.xml
+mvn dependency:tree | findstr webdrivermanager
 
-# Solución 2: Descargar driver manualmente y configurar PATH
-export PATH=$PATH:/path/to/drivers
+# WebDriverManager descarga automáticamente los drivers
+# No necesitas descargar ChromeDriver o GeckoDriver manualmente
 ```
 
 #### Error: "Tests not found"
 ```bash
 # Verificar estructura de paquetes
-src/test/java/com/abp/tests/
+src/test/java/com/abp/tests/LoginTest.java
+src/test/java/com/abp/tests/RegisterTest.java
 
-# Verificar annotations de TestNG
-@Test, @BeforeMethod, @AfterMethod
+# Verificar que testng.xml apunta a las clases correctas
 ```
 
-#### Error: "Port already in use" (para Selenium Grid)
+#### Error: "ParaBank site not accessible"
 ```bash
-# Matar procesos de Selenium
+# Verificar conexión a internet
+ping parabank.parasoft.com
+
+# El sitio puede estar temporalmente inactivo
+# Esperar unos minutos y reintentar
+```
+
+#### Error: "Port already in use" 
+```powershell
+# Windows - Matar procesos de drivers
 taskkill /f /im chromedriver.exe
 taskkill /f /im geckodriver.exe
 ```
 
-### 9. Mejores Prácticas
+#### Error: "Java version incompatible"
+```bash
+# Verificar versión Java (necesitas JDK 11+)
+java -version
+javac -version
+
+# Configurar JAVA_HOME si es necesario
+```
+
+### 10. Configuración para Diferentes Entornos
 
 #### Configuración Local de Desarrollo
 
-1. **Variables de Entorno**
-```bash
-# Windows
-set JAVA_HOME=C:\Program Files\Java\jdk-11
-set MAVEN_HOME=C:\Program Files\Apache\maven-3.8.6
+1. **Variables de Entorno Windows**
+```powershell
+# Configurar JAVA_HOME
+setx JAVA_HOME "C:\Program Files\Java\jdk-11"
+setx PATH "%PATH%;%JAVA_HOME%\bin"
 
-# Linux/Mac
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
-export MAVEN_HOME=/usr/local/maven
+# Configurar MAVEN_HOME  
+setx MAVEN_HOME "C:\Program Files\Apache\maven-3.9.0"
+setx PATH "%PATH%;%MAVEN_HOME%\bin"
 ```
 
-2. **IDE Configuration (VS Code)**
+2. **Configuración VS Code**
 ```json
 // settings.json
 {
-    "java.home": "/path/to/java11",
-    "maven.executable.path": "/path/to/mvn",
+    "java.home": "C:\\Program Files\\Java\\jdk-11",
+    "maven.executable.path": "C:\\Program Files\\Apache\\maven-3.9.0\\bin\\mvn.cmd",
     "java.test.defaultConfig": "testng",
     "java.test.config": {
         "workingDirectory": "${workspaceFolder}"
@@ -222,49 +267,109 @@ export MAVEN_HOME=/usr/local/maven
 }
 ```
 
-#### Configuración para CI/CD
-
-```yaml
-# GitHub Actions example
-- name: Setup Java
-  uses: actions/setup-java@v2
-  with:
-    java-version: '11'
-    
-- name: Install dependencies
-  run: mvn clean install
-  
-- name: Run tests
-  run: mvn test
-  
-- name: Upload reports
-  uses: actions/upload-artifact@v2
-  with:
-    name: test-reports
-    path: reports/
-```
-
-### 10. Comandos Útiles de Desarrollo
+#### Verificación de Instalación
 
 ```bash
-# Limpiar proyecto
-mvn clean
+# Verificar Java
+java -version
+# Debe mostrar: openjdk version "11.x.x" o superior
 
-# Compilar sin ejecutar tests
-mvn compile test-compile
+# Verificar Maven  
+mvn -version
+# Debe mostrar: Apache Maven 3.x.x
 
-# Verificar dependencias
+# Verificar navegadores
+# Chrome: Debe estar actualizado a última versión
+# Firefox: Debe estar actualizado a última versión
+
+# Verificar dependencias del proyecto
+mvn dependency:resolve
+# Debe descargar todas las dependencias sin errores
+```
+
+### 11. Comandos Útiles para el Proyecto
+
+```powershell
+# Limpiar proyecto y compilar
+mvn clean compile test-compile
+
+# Ejecutar solo compilación (sin tests)
+mvn compile
+
+# Verificar dependencias y actualizaciones
 mvn dependency:analyze
-
-# Generar documentación
-mvn javadoc:javadoc
-
-# Verificar actualizaciones
 mvn versions:display-dependency-updates
 
-# Ejecutar con debug
-mvn test -Dmaven.surefire.debug
+# Información del proyecto
+mvn help:describe -DgroupId=com.abp -DartifactId=selenium-automation
 
-# Generar reporte de cobertura (si configurado)
-mvn jacoco:report
+# Debug de tests (modo verbose)
+mvn test -X
+
+# Ejecutar tests en paralelo (más rápido)
+mvn test -DsuiteXmlFile=testng.xml -Dparallel=classes
+
+# Ver árbol de dependencias
+mvn dependency:tree
 ```
+
+### 12. Estructura de Cumplimiento ABP
+
+#### ✅ Requisitos Cumplidos
+- **6 Escenarios Automatizados** (cumple rango 4-6 requerido)
+  - 3 tests de Login 
+  - 3 tests de Registro
+- **Cross-browser Testing** (Chrome y Firefox)
+- **Page Object Model** implementado (3 clases POM)
+- **Evidencias Completas**:
+  - Videos .mov automáticos
+  - Reportes HTML con ExtentReports
+  - Screenshots en errores
+- **Gestión de Drivers** automática con WebDriverManager
+
+#### 📁 Archivos de Evidencia
+```
+Proyecto_ABP/
+├── reports/           # Reportes HTML
+├── videos/           # Videos .mov de cada test
+├── screenshots/      # Capturas automáticas en errores
+└── testng.xml       # Configuración cross-browser
+```
+
+### 13. Ejecución Paso a Paso
+
+1. **Preparación**
+```bash
+cd Proyecto_ABP
+mvn clean install
+```
+
+2. **Ejecución Completa**
+```bash
+mvn clean test
+```
+
+3. **Verificar Resultados**
+   - Abrir `reports/ExtentReport_*.html` en navegador
+   - Revisar videos en carpeta `videos/`
+   - Check console output para resumen de tests
+
+4. **Tests Individuales** (opcional)
+```bash
+mvn test -Dtest=LoginTest
+mvn test -Dtest=RegisterTest
+```
+
+---
+
+## 🎯 Resumen Ejecutivo
+
+Este proyecto de automatización Selenium cumple completamente con los requisitos ABP:
+- **6 escenarios** automatizados con evidencias completas
+- **Cross-browser** testing (Chrome/Firefox)  
+- **POM** implementado correctamente
+- **Videos** .mov y reportes HTML automáticos
+- **Sitio real** ParaBank para testing funcional
+
+**Comando principal**: `mvn clean test`
+**Evidencias**: `reports/` y `videos/`
