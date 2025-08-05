@@ -1,7 +1,11 @@
 package com.abp.tests;
 
 import com.abp.tests.pom.RegisterPage;
+import com.abp.utils.WebDriverConfig;
 import com.aventstack.extentreports.Status;
+
+import java.util.Random;
+
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -22,8 +26,8 @@ public class RegisterTest extends BaseTest {
         extentTest.log(Status.INFO, "Iniciando test de registro exitoso");
         
         // Generar username único para evitar conflictos
-        String uniqueUsername = "testuser" + System.currentTimeMillis();
-        
+        String uniqueUsername = generateUsername();
+
         // Ingresar datos de registro válidos usando el método correcto
         registerPage.registerUser(
             "Juan", 
@@ -43,6 +47,7 @@ public class RegisterTest extends BaseTest {
         // Verificar registro exitoso
         Assert.assertTrue(registerPage.isRegistrationSuccessful(), 
                          "El registro no fue exitoso");
+        registerPage.takeScreenshot("RegistroExitoso");
         extentTest.log(Status.PASS, "Registro completado exitosamente");
     }
     
@@ -50,7 +55,7 @@ public class RegisterTest extends BaseTest {
      * Test 2: Registro con campos obligatorios vacíos
      */
     @Test(priority = 2, description = "Verificar validación de campos obligatorios")
-    public void testRegistroCamposObligatorios() {
+    public void testRegistroCamposObligatorios() throws Exception {
         extentTest.log(Status.INFO, "Iniciando test de campos obligatorios");
         
         // Intentar registro con todos los campos vacíos
@@ -60,6 +65,7 @@ public class RegisterTest extends BaseTest {
         // Verificar que el registro no fue exitoso
         Assert.assertFalse(registerPage.isRegistrationSuccessful(), 
                          "No debería permitirse registro con campos vacíos");
+        registerPage.takeScreenshot("RegistroCamposObligatorios");
         extentTest.log(Status.PASS, "Validación de campos obligatorios funcionando");
     }
     
@@ -71,7 +77,7 @@ public class RegisterTest extends BaseTest {
         extentTest.log(Status.INFO, "Iniciando test de contraseñas que no coinciden");
         
         // Generar username único
-        String uniqueUsername = "testuser" + System.currentTimeMillis();
+        String uniqueUsername = generateUsername();
         
         // Ingresar datos con contraseñas diferentes
         registerPage.registerUser(
@@ -92,6 +98,21 @@ public class RegisterTest extends BaseTest {
         // Verificar que no se permite el registro
         Assert.assertFalse(registerPage.isRegistrationSuccessful(), 
                           "No debería permitirse registro con contraseñas diferentes");
+        registerPage.takeScreenshot("RegistroPasswordsNoCoinciden");
         extentTest.log(Status.PASS, "Validación de contraseñas funcionando");
     }
+
+    public static String generateUsername() {
+        String caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder codigo = new StringBuilder();
+        Random random = new Random();
+
+        for (int i = 0; i < 5; i++) {
+            int indice = random.nextInt(caracteres.length());
+            codigo.append(caracteres.charAt(indice));
+        }
+
+        return "user" + codigo.toString();
+    }
+
 }

@@ -5,13 +5,17 @@ import com.aventstack.extentreports.Status;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
+import com.abp.tests.pom.BasePage;
+import com.abp.utils.ExtentReportManager;
+import com.abp.utils.WebDriverConfig;
+
 /**
  * Clase base para todas las pruebas
  * Configura el setup y teardown común para todos los tests
- * Incluye grabación de video como evidencia
  */
 public class BaseTest {
     protected ExtentTest extentTest;
+    protected BasePage pom;
     
     @BeforeClass
     @Parameters("browser")
@@ -37,20 +41,12 @@ public class BaseTest {
     }
     
     @AfterMethod
-    public void teardownMethod(ITestResult result) {        
+    public void teardownMethod(ITestResult result) throws Exception {
+        System.out.println("=== Finalizando test: " + result.getMethod().getMethodName() + " ===");
+        
         if (result.getStatus() == ITestResult.FAILURE) {
             String errorMessage = result.getThrowable() != null ? result.getThrowable().getMessage() : "Error desconocido";
-            extentTest.log(Status.FAIL, "Test fallido: " + errorMessage);
-            
-            // Tomar captura de pantalla en caso de fallo
-            try {
-                String screenshotPath = takeScreenshot(result.getMethod().getMethodName());
-                if (screenshotPath != null) {
-                    extentTest.addScreenCaptureFromPath(screenshotPath);
-                }
-            } catch (Exception e) {
-                extentTest.log(Status.WARNING, "No se pudo tomar captura de pantalla: " + e.getMessage());
-            }
+            extentTest.log(Status.FAIL, "Test fallido: " + errorMessage);            
         } else if (result.getStatus() == ITestResult.SUCCESS) {
             extentTest.log(Status.PASS, "Test ejecutado exitosamente");
         } else if (result.getStatus() == ITestResult.SKIP) {
@@ -74,19 +70,5 @@ public class BaseTest {
     public void teardownSuite() {
         // Cerrar ExtentReports completamente
         ExtentReportManager.closeReport();
-    }
-    
-    /**
-     * Método helper para tomar capturas de pantalla
-     */
-    protected String takeScreenshot(String testName) {
-        try {
-            // Aquí implementarías la lógica de captura usando tu BasePage
-            // Por ahora, retornamos un path de ejemplo
-            return "screenshots/" + testName + "_error.png";
-        } catch (Exception e) {
-            System.err.println("Error tomando captura de pantalla: " + e.getMessage());
-            return null;
-        }
     }
 }

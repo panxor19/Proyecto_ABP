@@ -1,16 +1,16 @@
 package com.abp.tests.pom;
 
+import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.Select;
 
 /**
  * Page Object Model para la página de Registro de ParaBank
- * Implementa el patrón POM para el manejo de elementos de la página de registro
+ * Se implementa el patrón POM para el manejo de elementos de la página de registro
  */
 public class RegisterPage extends BasePage {
     
@@ -56,9 +56,8 @@ public class RegisterPage extends BasePage {
     
     @FindBy(css = ".error")
     private WebElement errorMessage;
-    
-    @FindBy(xpath = "//p[contains(text(), 'Your account was created successfully')] | //div[contains(text(), 'successfully')] | //h1[contains(text(), 'Welcome')] | //p[contains(text(), 'Welcome')]")
-    private WebElement successMessage;
+
+    By successMessage = By.xpath("//p[contains(text(), 'Your account was created successfully')]");
     
     // Mensajes de validación específicos
     @FindBy(id = "customer.firstName.errors")
@@ -102,15 +101,6 @@ public class RegisterPage extends BasePage {
      */
     public void navigateToRegisterPage() {
         driver.get(REGISTER_URL);
-        waitForPageToLoad();
-    }
-    
-    /**
-     * Espera a que la página de registro esté completamente cargada
-     */
-    private void waitForPageToLoad() {
-        waitForElementToBeVisible(firstNameField);
-        waitForElementToBeVisible(registerButton);
     }
     
     /**
@@ -165,200 +155,17 @@ public class RegisterPage extends BasePage {
     }
     
     /**
-     * Registro básico solo con campos obligatorios mínimos
-     */
-    public void registerUserBasic(String firstName, String lastName, String username, 
-                                 String password, String confirmPassword) {
-        registerUser(firstName, lastName, "123 Test St", "Test City", "Test State", 
-                    "12345", "555-1234", "123-45-6789", username, password, confirmPassword);
-    }
-    
-    /**
      * Registro con campos vacíos para probar validaciones
      */
     public void submitEmptyRegistration() {
-        waitForElementToBeVisible(registerButton);
-        clickElement(registerButton);
-        
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
-    
-    /**
-     * Obtiene el mensaje de error general
-     */
-    public String getErrorMessage() {
-        try {
-            waitForElementToBeVisible(errorMessage);
-            return errorMessage.getText();
-        } catch (Exception e) {
-            return "";
-        }
-    }
-    
-    /**
-     * Obtiene el mensaje de éxito
-     */
-    public String getSuccessMessage() {
-        try {
-            waitForElementToBeVisible(successMessage);
-            return successMessage.getText();
-        } catch (Exception e) {
-            return "";
-        }
-    }
-    
-    /**
-     * Verifica si hay errores de validación específicos
-     */
-    public boolean hasFieldValidationErrors() {
-        try {
-            return isElementDisplayed(firstNameError) || 
-                   isElementDisplayed(lastNameError) ||
-                   isElementDisplayed(addressError) ||
-                   isElementDisplayed(cityError) ||
-                   isElementDisplayed(stateError) ||
-                   isElementDisplayed(zipCodeError) ||
-                   isElementDisplayed(ssnError) ||
-                   isElementDisplayed(usernameError) ||
-                   isElementDisplayed(passwordError) ||
-                   isElementDisplayed(confirmPasswordError);
-        } catch (Exception e) {
-            return false;
-        }
-    }
-    
-    /**
-     * Verifica si un elemento está visible
-     */
-    private boolean isElementDisplayed(WebElement element) {
-        try {
-            return element.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-    
-    /**
-     * Obtiene errores específicos de campos
-     */
-    public String getFirstNameError() {
-        return getElementText(firstNameError);
-    }
-    
-    public String getLastNameError() {
-        return getElementText(lastNameError);
-    }
-    
-    public String getUsernameError() {
-        return getElementText(usernameError);
-    }
-    
-    public String getPasswordError() {
-        return getElementText(passwordError);
-    }
-    
-    public String getConfirmPasswordError() {
-        return getElementText(confirmPasswordError);
-    }
-    
-    /**
-     * Helper para obtener texto de un elemento
-     */
-    private String getElementText(WebElement element) {
-        try {
-            if (element.isDisplayed()) {
-                return element.getText();
-            }
-            return "";
-        } catch (Exception e) {
-            return "";
-        }
+        registerButton.click();
     }
     
     /**
      * Verifica si el registro fue exitoso
      */
     public boolean isRegistrationSuccessful() {
-        try {
-            // Esperar un poco a que la página se cargue después del registro
-            Thread.sleep(2000);
-            
-            // Verificar múltiples indicadores de éxito
-            
-            // 1. Verificar mensaje de éxito
-            try {
-                if (successMessage.isDisplayed()) {
-                    return true;
-                }
-            } catch (Exception e) {
-                // Continuar con otras verificaciones
-            }
-            
-            // 2. Verificar si estamos en la página de bienvenida o overview
-            String currentUrl = driver.getCurrentUrl();
-            if (currentUrl.contains("overview") || currentUrl.contains("welcome") || currentUrl.contains("account")) {
-                return true;
-            }
-            
-            // 3. Verificar si hay elementos que indican login exitoso
-            try {
-                WebElement logoutLink = driver.findElement(By.linkText("Log Out"));
-                if (logoutLink.isDisplayed()) {
-                    return true;
-                }
-            } catch (Exception e) {
-                // Continuar
-            }
-            
-            // 4. Verificar ausencia de errores
-            try {
-                if (!errorMessage.isDisplayed()) {
-                    // Si no hay errores y hemos llegado aquí, probablemente fue exitoso
-                    return true;
-                }
-            } catch (Exception e) {
-                // Si no se encuentra el elemento de error, es buena señal
-                return true;
-            }
-            
-            return false;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-    
-    /**
-     * Limpia todos los campos del formulario
-     */
-    public void clearAllFields() {
-        firstNameField.clear();
-        lastNameField.clear();
-        addressField.clear();
-        cityField.clear();
-        stateField.clear();
-        zipCodeField.clear();
-        phoneNumberField.clear();
-        ssnField.clear();
-        usernameField.clear();
-        passwordField.clear();
-        confirmPasswordField.clear();
-    }
-    
-    /**
-     * Verifica si la página de registro está completamente cargada
-     */
-    public boolean isRegisterPageLoaded() {
-        try {
-            waitForElementToBeVisible(firstNameField);
-            waitForElementToBeVisible(passwordField);
-            waitForElementToBeVisible(registerButton);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        List<WebElement> elements = driver.findElements(successMessage);
+        return !elements.isEmpty();
     }
 }
