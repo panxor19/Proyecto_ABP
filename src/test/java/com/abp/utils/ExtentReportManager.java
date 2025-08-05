@@ -1,4 +1,4 @@
-package com.abp.tests;
+package com.abp.utils;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
