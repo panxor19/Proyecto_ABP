@@ -1,16 +1,11 @@
 package com.abp.tests;
 
-import com.abp.config.WebDriverConfig;
-import com.abp.pages.LoginPage;
+import com.abp.tests.pom.LoginPage;
 import com.aventstack.extentreports.Status;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-/**
- * Tests de Login para ParaBank - Versión Simplificada ABP
- * Solo incluye los 3 tests básicos requeridos por la tarea
- */
-public class LoginTestsSimplified extends BaseTest {
+public class LoginTest extends BaseTest {
     private LoginPage loginPage;
     
     @BeforeMethod

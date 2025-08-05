@@ -1,16 +1,11 @@
 package com.abp.tests;
 
-import com.abp.config.WebDriverConfig;
-import com.abp.pages.RegisterPage;
+import com.abp.tests.pom.RegisterPage;
 import com.aventstack.extentreports.Status;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-/**
- * Tests de Registro para ParaBank - Versión Simplificada ABP
- * Solo incluye los 3 tests básicos requeridos por la tarea
- */
-public class RegistrationTestsSimplified extends BaseTest {
+public class RegisterTest extends BaseTest {
     private RegisterPage registerPage;
     
     @BeforeMethod

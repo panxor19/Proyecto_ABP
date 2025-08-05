@@ -1,8 +1,5 @@
 package com.abp.tests;
 
-import com.abp.config.WebDriverConfig;
-import com.abp.utils.ExtentReportManager;
-import com.abp.utils.VideoRecorder;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import org.testng.ITestResult;
@@ -15,7 +12,6 @@ import org.testng.annotations.*;
  */
 public class BaseTest {
     protected ExtentTest extentTest;
-    private static boolean videoRecordingEnabled = true; // Configurar según necesidad
     
     @BeforeClass
     @Parameters("browser")
@@ -36,28 +32,12 @@ public class BaseTest {
         String className = this.getClass().getSimpleName();
         extentTest = ExtentReportManager.createTest(className + " - " + testName, 
                                                    "Prueba automatizada: " + testName);
-        
-        // Iniciar grabación de video para evidencia
-        if (videoRecordingEnabled) {
-            VideoRecorder.startRecording(className + "_" + testName);
-            extentTest.log(Status.INFO, "🎥 Grabación de video iniciada para evidencia");
-        }
-        
+                
         extentTest.log(Status.INFO, "Configurando test: " + testName);
     }
     
     @AfterMethod
-    public void teardownMethod(ITestResult result) {
-        // Detener grabación de video
-        if (videoRecordingEnabled) {
-            try {
-                VideoRecorder.stopRecording();
-                extentTest.log(Status.INFO, "🎬 Grabación de video completada y guardada en /videos/");
-            } catch (Exception e) {
-                extentTest.log(Status.WARNING, "Error deteniendo grabación de video: " + e.getMessage());
-            }
-        }
-        
+    public void teardownMethod(ITestResult result) {        
         if (result.getStatus() == ITestResult.FAILURE) {
             String errorMessage = result.getThrowable() != null ? result.getThrowable().getMessage() : "Error desconocido";
             extentTest.log(Status.FAIL, "Test fallido: " + errorMessage);

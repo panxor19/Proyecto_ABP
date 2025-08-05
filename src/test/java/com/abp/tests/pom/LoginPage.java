@@ -1,4 +1,4 @@
-package com.abp.pages;
+package com.abp.tests.pom;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -6,12 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
-/**
- * Page Object Model para la página de Login de ParaBank
- * Implementa el patrón POM para el manejo de elementos de la página de inicio de sesión
- */
 public class LoginPage extends BasePage {
     
     // URL de ParaBank

@@ -1,4 +1,4 @@
-package com.abp.pages;
+package com.abp.tests.pom;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

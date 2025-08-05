@@ -1,4 +1,4 @@
-package com.abp.config;
+package com.abp.tests;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -48,7 +48,7 @@ public class WebDriverConfig {
             
             webDriver.manage().window().maximize();
             webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-            webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+            webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(5));
             
             driver.set(webDriver);
             wait.set(new WebDriverWait(webDriver, Duration.ofSeconds(15)));
