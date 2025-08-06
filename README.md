@@ -12,7 +12,7 @@ Proyecto académico de **Aprendizaje Basado en Problemas (ABP)** enfocado en la 
 ### 🎯 Objetivos ABP
 - Implementar un framework de automatización robusto y escalable
 - Aplicar patrones de diseño como **Page Object Model (POM)**
-- Generar evidencias completas de ejecución (reportes y videos)
+- Generar evidencias completas de ejecución (reportes y screenshots)
 - Realizar pruebas **cross-browser** para garantizar compatibilidad
 - Desarrollar habilidades en herramientas industriales de QA
 
@@ -39,7 +39,6 @@ Proyecto académico de **Aprendizaje Basado en Problemas (ABP)** enfocado en la 
 | **TestNG** | 7.8.0 | Framework de testing y assertions |
 | **WebDriverManager** | 5.6.2 | Gestión automática de drivers |
 | **ExtentReports** | 5.1.1 | Generación de reportes HTML interactivos |
-| **Monte Screen Recorder** | 0.7.7.0 | Grabación de videos de evidencia |
 | **Maven** | 3.9+ | Gestión de dependencias y ciclo de vida |
 
 ## 🏗️ Arquitectura del Proyecto
@@ -59,7 +58,7 @@ Proyecto académico de **Aprendizaje Basado en Problemas (ABP)** enfocado en la 
 │       ├── WebDriverConfig.java    # Configuración de WebDrivers
 │       └── ExtentReportManager.java # Gestión de reportes
 ├── 📁 reports/                     # Reportes HTML generados
-├── 📁 videos/                      # Videos de evidencia (.mov)
+├── 📁 screenshots/                 # Screenshots capturados en los tests
 ├── testng.xml                      # Configuración de suites de prueba
 └── pom.xml                         # Configuración Maven
 ```
@@ -93,8 +92,7 @@ mvn test -Dtest="*Test" -Dbrowser=firefox
 ### 📊 Resultados de Ejecución
 Después de ejecutar las pruebas, encontrarás:
 - **📈 Reportes HTML**: `reports/ExtentReport_YYYYMMDD_HHMMSS.html`
-- **🎬 Videos**: `videos/Test_*.mov` (uno por cada test)
-- **📸 Screenshots**: Automáticas en caso de errores
+- **📸 Screenshots**: Automáticos por cada test
 
 ## 🌐 Entorno de Pruebas
 
@@ -116,7 +114,7 @@ Después de ejecutar las pruebas, encontrarás:
 | **4-6 Escenarios automatizados** | ✅ **6/6** | 3 Login + 3 Registro |
 | **Cross-browser testing** | ✅ | Chrome y Firefox |
 | **Page Object Model** | ✅ | 3 clases POM implementadas |
-| **Evidencias de ejecución** | ✅ | Videos .mov + Reportes HTML |
+| **Evidencias de ejecución** | ✅ | Screenshots .png + Reportes HTML |
 | **Gestión de datos** | ✅ | Datos hardcoded y generados |
 | **Framework robusto** | ✅ | Selenium + TestNG + Maven |
 
@@ -134,8 +132,7 @@ Después de ejecutar las pruebas, encontrarás:
 
 ### 📊 **Reporting Avanzado**
 - Reportes HTML interactivos con gráficos
-- Screenshots automáticas en fallos
-- Videos de evidencia para cada test
+- Screenshots de evidencia por cada test
 - Logs detallados paso a paso
 
 ## 🔧 Requisitos del Sistema
@@ -163,7 +160,7 @@ mvn dependency:resolve
 
 - **[SETUP_GUIDE.md](./SETUP_GUIDE.md)** - Guía detallada de instalación y configuración
 - **[Reportes de Ejemplo](./reports/)** - Ejemplos de reportes generados
-- **[Videos de Evidencia](./videos/)** - Muestras de grabaciones automáticas
+- **[Screenshots de Evidencia](./screenshots/)** - Screenshots de Evidencia
 
 ## 🤝 Contribuciones
 
@@ -199,6 +196,6 @@ Este proyecto es de uso académico y educativo, desarrollado para fines de apren
 
 4. **Ver resultados**
    - Abrir `reports/ExtentReport_*.html` en tu navegador
-   - Revisar videos en la carpeta `videos/`
+   - Revisar screenshots en la carpeta `screenshots/`
 
 **¡Proyecto listo para demostrar cumplimiento ABP! 🎉**

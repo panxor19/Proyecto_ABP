@@ -2,7 +2,7 @@
 
 ## Guía de Instalación y Configuración del Proyecto
 
-Esta guía detalla los pasos necesarios para configurar y ejecutar el proyecto de automatización Selenium para ParaBank. El proyecto incluye 6 escenarios automatizados (Login y Registro) con evidencias en video y reportes HTML, cumpliendo completamente con los requisitos ABP.
+Esta guía detalla los pasos necesarios para configurar y ejecutar el proyecto de automatización Selenium para ParaBank. El proyecto incluye 6 escenarios automatizados (Login y Registro) con evidencias en screenshots y reportes HTML, cumpliendo completamente con los requisitos ABP.
 
 ### 1. Prerequisitos del Sistema
 
@@ -57,7 +57,6 @@ mvn dependency:resolve
 - TestNG 7.8.0  
 - WebDriverManager 5.6.2
 - ExtentReports 5.1.1
-- Monte Screen Recorder 0.7.7.0 (para videos)
 
 #### testng.xml
 - Define las suites de prueba para Chrome y Firefox
@@ -180,11 +179,9 @@ El proyecto utiliza datos de prueba directamente en el código:
 - Screenshots automáticas en errores
 - Detalles de cada paso de test
 
-#### Videos de Evidencia (.mov)
-- **Ubicación**: `videos/Test_*.mov`
-- Grabación automática con Monte Screen Recorder
-- Un video por cada test ejecutado
-- Formato .mov compatible con la mayoría de reproductores
+#### Screenshots de Evidencia (.png)
+- **Ubicación**: `screenshots/*.png`
+- Un screenshot por cada test ejecutado
 
 #### Configurar Reportes
 Los reportes se configuran automáticamente en `ExtentReportManager.java`:
@@ -322,17 +319,15 @@ mvn dependency:tree
 - **Cross-browser Testing** (Chrome y Firefox)
 - **Page Object Model** implementado (3 clases POM)
 - **Evidencias Completas**:
-  - Videos .mov automáticos
   - Reportes HTML con ExtentReports
-  - Screenshots en errores
+  - Screenshots por cada prueba
 - **Gestión de Drivers** automática con WebDriverManager
 
 #### 📁 Archivos de Evidencia
 ```
 Proyecto_ABP/
 ├── reports/           # Reportes HTML
-├── videos/           # Videos .mov de cada test
-├── screenshots/      # Capturas automáticas en errores
+├── screenshots/      # Capturas por cada prueba
 └── testng.xml       # Configuración cross-browser
 ```
 
@@ -351,7 +346,7 @@ mvn clean test
 
 3. **Verificar Resultados**
    - Abrir `reports/ExtentReport_*.html` en navegador
-   - Revisar videos en carpeta `videos/`
+   - Revisar screenshots en carpeta `screenshots/`
    - Check console output para resumen de tests
 
 4. **Tests Individuales** (opcional)
@@ -368,8 +363,8 @@ Este proyecto de automatización Selenium cumple completamente con los requisito
 - **6 escenarios** automatizados con evidencias completas
 - **Cross-browser** testing (Chrome/Firefox)  
 - **POM** implementado correctamente
-- **Videos** .mov y reportes HTML automáticos
+- **Screenshots** .png y reportes HTML automáticos
 - **Sitio real** ParaBank para testing funcional
 
 **Comando principal**: `mvn clean test`
-**Evidencias**: `reports/` y `videos/`
+**Evidencias**: `reports/` y `screenshots/`
