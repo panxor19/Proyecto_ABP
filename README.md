@@ -116,7 +116,7 @@ Después de ejecutar las pruebas, encontrarás:
 
 | Requisito | Estado | Detalles |
 |-----------|--------|----------|
-| **4-6 Escenarios automatizados** | ✅ **6/6** | 3 Login + 3 Registro |
+| **4-6 Escenarios automatizados** | ✅ **7/6** | 4 Login + 3 Registro |
 | **Cross-browser testing** | ✅ | Chrome y Firefox |
 | **Page Object Model** | ✅ | 3 clases POM implementadas |
 | **Evidencias de ejecución** | ✅ | Screenshots .png + Reportes HTML |
@@ -208,5 +208,3 @@ Este proyecto es de uso académico y educativo, desarrollado para fines de apren
 4. **Ver resultados**
    - Abrir `reports/ExtentReport_*.html` en tu navegador
    - Revisar screenshots en la carpeta `screenshots/`
-
-**¡Proyecto listo para demostrar cumplimiento ABP! 🎉**
