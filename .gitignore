@@ -1,4 +1,5 @@
 target/*
 reports/*
+!reports/.gitkeep
 screenshots/*
 !screenshots/.gitkeep
