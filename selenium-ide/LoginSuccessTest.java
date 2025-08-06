@@ -38,7 +38,7 @@ public class LoginSuccessTest {
   }
   @Test
   public void loginSuccess() {
-    driver.get("https://the-internet.herokuapp.com/login/login");
+    driver.get("https://the-internet.herokuapp.com/login");
     driver.manage().window().setSize(new Dimension(1624, 1055));
     driver.findElement(By.id("username")).click();
     driver.findElement(By.id("username")).sendKeys("tomsmith");
