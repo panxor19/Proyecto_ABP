@@ -164,6 +164,7 @@ mvn dependency:resolve
 ## 📖 Documentación Adicional
 
 - **[SETUP_GUIDE.md](./SETUP_GUIDE.md)** - Guía detallada de instalación y configuración
+- **[SELENIUM_IDE_USO.md](./SELENIUM_IDE_USO.md)** - Guía de uso y exportación de scripts con Selenium IDE
 - **[Reportes de Ejemplo](./reports/)** - Ejemplos de reportes generados
 - **[Screenshots de Evidencia](./screenshots/)** - Screenshots de Evidencia
 
