@@ -18,17 +18,18 @@ Proyecto académico de **Aprendizaje Basado en Problemas (ABP)** enfocado en la 
 
 ## 🧪 Escenarios de Prueba Implementados
 
-### 📝 **Módulo de Autenticación (3 escenarios)**
+### 📝 **Módulo de Autenticación (4 escenarios)**
 1. **✅ Login Exitoso** - Validación de acceso con credenciales válidas
 2. **❌ Login Fallido** - Verificación de manejo de credenciales inválidas
 3. **⚠️ Validación de Campos** - Control de campos obligatorios vacíos
+4. **⚠️ Login con DataProvider** - Distintos usuarios y contraseñas usando DataProvider
 
 ### 👤 **Módulo de Registro (3 escenarios)**
 1. **✅ Registro Exitoso** - Creación exitosa de nueva cuenta
 2. **📋 Campos Obligatorios** - Validación de datos requeridos
 3. **🔐 Validación de Contraseñas** - Verificación de coincidencia de passwords
 
-**Total: 6 escenarios automatizados** *(cumple requisito ABP de 4-6 escenarios)*
+**Total: 7 escenarios automatizados**
 
 ## 🛠️ Stack Tecnológico
 
@@ -59,6 +60,7 @@ Proyecto académico de **Aprendizaje Basado en Problemas (ABP)** enfocado en la 
 │       └── ExtentReportManager.java # Gestión de reportes
 ├── 📁 reports/                     # Reportes HTML generados
 ├── 📁 screenshots/                 # Screenshots capturados en los tests
+├── 📁 selenium-ide/                # Script exportados usando selenium IDE
 ├── testng.xml                      # Configuración de suites de prueba
 └── pom.xml                         # Configuración Maven
 ```
@@ -96,10 +98,13 @@ Después de ejecutar las pruebas, encontrarás:
 
 ## 🌐 Entorno de Pruebas
 
-### 🏦 ParaBank Demo Application
+### 🏦 The-Internet (Para el login)
+- **🔗 URL**: [the-internet.herokuapp.com/login](https://the-internet.herokuapp.com/login)
+- **👤 Usuario de prueba**: `tomsmith`
+- **🔑 Contraseña**: `SuperSecretPassword!`
+
+### 🏦 ParaBank Demo Application (Para el registro)
 - **🔗 URL**: [https://parabank.parasoft.com/parabank/index.htm](https://parabank.parasoft.com/parabank/index.htm)
-- **👤 Usuario de prueba**: `john`
-- **🔑 Contraseña**: `demo`
 - **📝 Registro**: Utiliza datos únicos generados automáticamente
 
 ### 🌍 Navegadores Soportados
