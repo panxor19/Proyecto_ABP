@@ -115,7 +115,7 @@ Después de ejecutar las pruebas, encontrarás:
 | **Cross-browser testing** | ✅ | Chrome y Firefox |
 | **Page Object Model** | ✅ | 3 clases POM implementadas |
 | **Evidencias de ejecución** | ✅ | Screenshots .png + Reportes HTML |
-| **Gestión de datos** | ✅ | Datos hardcoded y generados |
+| **Gestión de datos** | ✅ | Datos hardcoded, generados y por DataProvider |
 | **Framework robusto** | ✅ | Selenium + TestNG + Maven |
 
 ## 📚 Patrones y Buenas Prácticas
@@ -134,6 +134,11 @@ Después de ejecutar las pruebas, encontrarás:
 - Reportes HTML interactivos con gráficos
 - Screenshots de evidencia por cada test
 - Logs detallados paso a paso
+
+### 🧪 **Data-Driven Testing con TestNG**
+- **@DataProvider**: Se utiliza para ejecutar el mismo test con diferentes conjuntos de datos.
+- **Archivo CSV**: Los datos de prueba se almacenan en un archivo `login.csv`, lo que facilita la gestión y modificación de los datos sin necesidad de cambiar el código.
+- **Reutilización de Pruebas**: Permite una mayor cobertura de pruebas con menos código.
 
 ## 🔧 Requisitos del Sistema
 

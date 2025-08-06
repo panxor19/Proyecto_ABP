@@ -33,7 +33,6 @@ public class LoginPage extends BasePage {
      */
     public void navigateToLogin() {
         driver.get(LOGIN_URL);
-        // waitForPageToLoad();
     }
     
     /**
@@ -46,11 +45,15 @@ public class LoginPage extends BasePage {
     }
         
     /**
-     * Verifica si el login fue exitoso (aparece mensaje de bienvenida o panel de usuario)
+     * Verifica si el login fue exitoso (aparece mensaje de bienvenida)
      */
     public boolean isLoginSuccessful() {
-        waitForElementToBeVisible(flashMessage);
-        String mensaje = flashMessage.getText();
-        return mensaje.contains("You logged into a secure area!");
-    }    
+        try {
+            waitForElementToBeVisible(flashMessage);
+            String mensaje = flashMessage.getText();
+            return mensaje.contains("You logged into a secure area!");
+        } catch (Exception e) {
+            return false;
+        }
+    } 
 }
